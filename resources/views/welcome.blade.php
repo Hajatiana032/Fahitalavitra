@@ -14,11 +14,13 @@
 <body>
 @include('partials.navbar')
 
-<main class="mx-5 lg:mx-25">
+<main class="mx-5 lg:mx-25 mb-5">
     <x-flash-messages/>
     @yield('content')
 </main>
-
+<footer class="text-center bg-neutral text-neutral-content p-2">
+    &copy; {{ date('Y') }} Fahitalavitra by Hajatiana. All rights reserved
+</footer>
 @livewireScripts
 </body>
 </html>
