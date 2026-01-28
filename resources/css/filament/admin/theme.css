@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import "../../../../node_modules/flyonui/variants.css";
+
+@import "flyonui/variants.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+@plugin "flyonui" {
+    themes: light --default, dark --prefersdark, spotify;
+}
+@source "../node_modules/flyonui/flyonui.js";
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
