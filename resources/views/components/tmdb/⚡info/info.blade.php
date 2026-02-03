@@ -3,13 +3,15 @@
         <div class="alert alert-soft alert-error text-center">
             {{ $errorMessage }}
         </div>
-        <div class="text-center">
-            <button href="{{ route('filament.admin.resources.films.index') }}"
-                class="btn btn-soft btn-lg btn-primary mt-3" wire:navigate>
-                <i class="far fa-arrow-alt-circle-left"></i>
-                Retour
-            </button>
-        </div>
+        @if (request()->routeIs('filament.admin.*'))
+            <div class="text-center">
+                <button href="{{ route('filament.admin.resources.films.index') }}"
+                    class="btn btn-soft btn-lg btn-primary mt-3" wire:navigate>
+                    <i class="far fa-arrow-alt-circle-left"></i>
+                    Retour
+                </button>
+            </div>
+        @endif
     @endif
     @if ($successMessage)
         <div class="alert alert-soft alert-success text-center mb-5">
@@ -17,15 +19,17 @@
         </div>
     @endif
     @if (!empty($movie))
-        <div class="ms-auto mb-3">
-            <button href="{{ \App\Filament\Resources\Movies\MovieResource::getUrl('tmdbList') }}" class="btn btn-primary"
-                wire:navigate>Voir la liste sur TMDB
-            </button>
-            <button href="{{ \App\Filament\Resources\Movies\MovieResource::getUrl('index') }}"
-                class="btn btn-soft
-        btn-secondary" wire:navigate>Liste des films enregistrés
-            </button>
-        </div>
+        @if (request()->routeIs('filament.admin.*'))
+            <div class="ms-auto mb-3">
+                <button href="{{ \App\Filament\Resources\Movies\MovieResource::getUrl('tmdbList') }}"
+                    class="btn btn-primary" wire:navigate>Voir la liste sur TMDB
+                </button>
+                <button href="{{ \App\Filament\Resources\Movies\MovieResource::getUrl('index') }}"
+                    class="btn btn-soft
+    btn-secondary" wire:navigate>Liste des films enregistrés
+                </button>
+            </div>
+        @endif
         <div class="card image-full">
             <figure>
                 <img src="https://image.tmdb.org/t/p/w500/{{ $movie['backdrop_path'] }}" alt="{{ $movie['title'] }}"
@@ -83,10 +87,12 @@
                                     Extrait vidéo
                                 </button>
                             @endempty
-                            <button class="btn btn-soft btn-secondary" wire:click="importMovie">
-                                <i class="far fa-arrow-alt-circle-down"></i>
-                                Importer
-                            </button>
+                            @if (request()->routeIs('filament.admin.*'))
+                                <button class="btn btn-soft btn-secondary" wire:click="importMovie">
+                                    <i class="far fa-arrow-alt-circle-down"></i>
+                                    Importer
+                                </button>
+                            @endif
                             <div class="overlay modal overlay-open:opacity-100
                                  overlay-open:duration-300 [--overlay-backdrop:static]
                                  hidden"

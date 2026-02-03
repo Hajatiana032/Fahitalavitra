@@ -12,6 +12,7 @@ new class extends Component {
     public array $movies = [];
     public string $genreName = '';
     public int $id;
+    public string $errorMessage = '';
 
     public function mount(UrlApiService $urlApiService, int $id): void
     {
@@ -19,7 +20,7 @@ new class extends Component {
             $this->id = $id;
             $this->getMovies($urlApiService);
         } catch (Exception $e) {
-            throw new Exception("Une erreur est survenue, impossible d'afficher les films de ce genre 😓.");
+            $this->errorMessage = 'Une erreur est survenue lors du chargement des films.';
         }
     }
 

@@ -1,4 +1,5 @@
-<header class=" bg-base-100 flex w-full flex-wrap py-4 text-sm md:flex-nowrap md:justify-start md:py-0 mb-5">
+<header
+    class=" bg-base-100 flex w-full flex-wrap py-4 text-sm md:flex-nowrap md:justify-start md:py-0 mb-5 sticky top-0 z-1">
     <nav class="mx-auto w-full px-4 shadow-xs shadow-accent" aria-label="Global">
         <div class="relative md:flex md:items-center">
             <div class="flex items-center justify-between">
@@ -23,10 +24,14 @@
                             'hover:bg-primary',
                             'bg-primary' => request()->routeIs('home'),
                         ]) wire:navigate>Acceuil</a></li>
+                        <li><a href="" wire:navigate>Actuellement en salle</a></li>
                     </ul>
                     <div
                         class="dropdown [--adaptive:none] [--auto-close:inside] [--mega-menu:true] [--strategy:static] md:[--strategy:absolute]">
-                        <button @class(['dropdown-toggle btn btn-text hover:bg-primary font-normal']) aria-haspopup="menu" aria-expanded="false"
+                        <button @class([
+                            'dropdown-toggle btn btn-text hover:bg-primary font-normal',
+                            'bg-primary' => request()->routeIs('genres'),
+                        ]) aria-haspopup="menu" aria-expanded="false"
                             aria-label="Dropdown">
                             Genres
                             <span class="fa fa-chevron-circle-down dropdown-open:rotate-180 size-4"></span>

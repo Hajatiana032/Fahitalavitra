@@ -7,7 +7,8 @@
             @foreach ($movies as $movie)
                 <div class="carousel-slide">
                     <div class="flex size-full justify-center">
-                        <a href="#" class="waves">
+                        <a href="{{ route('movie.show', ['slug' => Str::slug($movie['title']), 'id' => $movie['id']]) }}"
+                            class="waves" wire:navigate>
                             <img src="https://image.tmdb.org/t/p/w500/{{ $movie['poster_path'] }}"
                                 alt="{{ $movie['title'] }}" class="w-full h-100" />
                         </a>
@@ -19,13 +20,13 @@
 
     <!-- Previous Slide -->
     <button type="button"
-        class="carousel-prev start-5 max-sm:start-3 carousel-disabled:opacity-50 size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
+        class="carousel-prev start-5 max-sm:start-3 carousel-disabled:opacity-50 size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm hover:bg-primary transition ease-in-out duration-300">
         <span class="fa fa-arrow-left"></span>
         <span class="sr-only">Previous</span>
     </button>
     <!-- Next Slide -->
     <button type="button"
-        class="carousel-next end-5 max-sm:end-3 carousel-disabled:opacity-50 size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
+        class="carousel-next end-5 max-sm:end-3 carousel-disabled:opacity-50 size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm hover:bg-primary transition ease-in-out duration-300">
         <span class="fa fa-arrow-right"></span>
         <span class="sr-only">Next</span>
     </button>

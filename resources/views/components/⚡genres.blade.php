@@ -17,7 +17,10 @@ new class extends Component {
     @foreach ($genres as $genre)
         <ul class="menu">
             <li><a href="{{ route('genres', ['slug' => Str::slug($genre['name']), 'id' => $genre['id']]) }}"
-                    class="text-center" wire:navigate>{{ $genre['name'] }}</a>
+                    @class([
+                        'bg-primary' =>
+                            request()->routeIs('genres') && request()->id == $genre['id'],
+                    ]) wire:navigate>{{ $genre['name'] }}</a>
             </li>
         </ul>
     @endforeach
