@@ -11,14 +11,16 @@ class Movie extends Model
     use HasFactory;
 
     protected $fillable = [
-        'poster',
-        'title',
-        'slug',
-        'tmdb_id',
+        "poster",
+        'backdrop',
+        "title",
+        "slug",
+        "tmdb_id",
+        'backdrop',
     ];
 
-    public function tickets(): HasMany
+    public function projections(): HasMany
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Projection::class);
     }
 }

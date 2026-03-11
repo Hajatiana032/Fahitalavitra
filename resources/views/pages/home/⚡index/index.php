@@ -2,7 +2,6 @@
 
 use App\Services\UrlApiService;
 use Livewire\Component;
-use Soap\Url;
 
 new class extends Component {
     public array $popularMovies = [];
@@ -21,17 +20,17 @@ new class extends Component {
         }
     }
 
-    public function popularMovies(UrlApiService $urlApiService)
+    public function popularMovies(UrlApiService $urlApiService): void
     {
         $this->popularMovies = $urlApiService->url('https://api.themoviedb.org/3/movie/popular')->json('results');
     }
 
-    public function topRatedMovies(UrlApiService $urlApiService)
+    public function topRatedMovies(UrlApiService $urlApiService): void
     {
         $this->topRatedMovies = $urlApiService->url('https://api.themoviedb.org/3/movie/top_rated')->json('results');
     }
 
-    public function upcomingMovies(UrlApiService $urlApiService)
+    public function upcomingMovies(UrlApiService $urlApiService): void
     {
         $this->upcomingMovies = $urlApiService->url('https://api.themoviedb.org/3/movie/upcoming')->json('results');
     }

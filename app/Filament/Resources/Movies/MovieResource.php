@@ -26,7 +26,6 @@ class MovieResource extends Resource
     protected static ?string $navigationLabel = "Films";
 
     protected static ?string $slug = "films";
-    protected array $extraBodyAttributes = ['data-theme' => 'spotify'];
 
     public static function form(Schema $schema): Schema
     {

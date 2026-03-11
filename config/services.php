@@ -37,4 +37,7 @@ return [
 
     'tmdb_api_key' => env('TMDB_API_KEY'),
 
+    'stripe_api_secret_key' => env('STRIPE_API_SECRET_KEY'),
+    'stripe_api_public_key' => env('STRIPE_API_PUBLIC_KEY'),
+
 ];

@@ -5,9 +5,6 @@ use App\Services\ImportMovieService;
 use App\Services\UrlApiService;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
-use Illuminate\Http\Request;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -22,7 +19,6 @@ new class extends Component implements HasSchemas {
 
     public string $errorMessage = '';
 
-    public string $successMessage = '';
     public int $totalPages = 1;
 
 
@@ -30,7 +26,7 @@ new class extends Component implements HasSchemas {
     {
         try {
             $this->fetchMovies($api);
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $this->errorMessage = "Une erreur est survenue, impossible d'afficher la liste des films 😓.";
         }
     }
@@ -49,13 +45,6 @@ new class extends Component implements HasSchemas {
         $this->totalPages = min($response->json('total_pages') ?? 1, 500);
     }
 
-    #[On('page-changed')]
-    public function onPageChanged(int $page, UrlApiService $api): void
-    {
-        $this->page = $page;
-        $this->fetchMovies($api);
-    }
-
     public function updatedSearch(UrlApiService $api): void
     {
         $this->page = 1;
@@ -64,23 +53,20 @@ new class extends Component implements HasSchemas {
     }
 
     /**
-     * @return Movie
+     * @param  ImportMovieService  $importMovieService
+     * @param  int  $id
+     * @return void
      */
-    public function importMovie(ImportMovieService $importMovieService, int $id): Movie
+    public function importMovie(ImportMovieService $importMovieService, int $id): void
     {
         $movie = collect($this->movies)->firstWhere('id', $id);
         $currentMovie = Movie::where('tmdb_id', $id)->first();
         if ($currentMovie) {
-            $this->errorMessage = 'Le film "' . $movie['title'] . '" a déjà été importé.';
-            $this->dispatch('scroll-to-top');
-            return $currentMovie;
+            session()->flash('error', 'Le film "'.$currentMovie->title.'" est déjà présent dans la base de données !');
+        } else {
+            $importMovieService->importMovie($movie['poster_path'], $movie['backdrop_path'], $movie['title'], $id);
+            session()->flash('primary', 'Le film "'.$movie['title'].'" a été importé avec succès !');
         }
-        if (!$movie) {
-            throw new \Exception('Film non trouvé dans la liste actuelle.');
-        }
-        $importedMovie = $importMovieService->importMovie($movie['poster_path'], $movie['title'], $id);
-        $this->successMessage = 'Film "' . $movie['title'] . '" importé avec succès !';
-        $this->dispatch('scroll-to-top');
-        return $importedMovie;
+        $this->redirectRoute('filament.admin.resources.films.tmdbList', ['page' => $this->page], navigate: true);
     }
 };

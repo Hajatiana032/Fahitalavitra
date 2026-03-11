@@ -1,7 +1,6 @@
 <?php
 
 use App\Services\UrlApiService;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -24,20 +23,14 @@ new class extends Component {
         }
     }
 
-    public function getMovies(UrlApiService $urlApiService)
+    public function getMovies(UrlApiService $urlApiService): void
     {
-        $response = $urlApiService->url("https://api.themoviedb.org/3/genre/{$this->id}/movies", ['page' => $this->page]);
+        $response = $urlApiService->url("https://api.themoviedb.org/3/genre/{$this->id}/movies", ['page' => $this->page]
+        );
         $genreName = $urlApiService->url('https://api.themoviedb.org/3/genre/movie/list');
         $this->genreName = collect($genreName->json('genres'))
             ->firstWhere('id', $this->id)['name'] ?? 'Genre inconnu';
         $this->movies = $response->json('results') ?? [];
         $this->totalPages = min($response->json('total_pages') ?? 1, 500);
-    }
-
-    #[On('page-changed')]
-    public function onPageChanged(int $page, UrlApiService $urlApiService): void
-    {
-        $this->page = $page;
-        $this->getMovies($urlApiService);
     }
 };

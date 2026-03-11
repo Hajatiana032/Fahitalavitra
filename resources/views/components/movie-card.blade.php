@@ -31,8 +31,8 @@
                     </span>
                 </div>
             @else
-                <a href="{{ route('movie.show', ['id' => $movie['id']]) }}" class="btn btn-soft btn-info"
-                    wire:navigate>Plus d'infos</a>
+                <a href="{{ route('movie.show', ['slug' => Str::slug($movie['title']), 'id' => $movie['id']]) }}"
+                    class="btn btn-soft btn-info" wire:navigate>Plus d'infos</a>
             @endif
         </div>
     </div>

@@ -1,6 +1,5 @@
 import './bootstrap';
 import "flyonui/flyonui"
-import Waves from "node-waves"
 import "node-waves/dist/waves.css"
 
 

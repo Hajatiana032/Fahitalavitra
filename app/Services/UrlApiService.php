@@ -18,10 +18,9 @@ class UrlApiService
      */
     public function url(string $url, ?array $query = [])
     {
-        return Http::withHeaders(['Authorization' => 'Bearer ' . config('services.tmdb_api_key')])
+        return Http::withHeaders(['Authorization' => 'Bearer '.config('services.tmdb_api_key')])
             ->timeout(5)
             ->get($url, $query)
-            ->throw()
-        ;
+            ->throw();
     }
 }

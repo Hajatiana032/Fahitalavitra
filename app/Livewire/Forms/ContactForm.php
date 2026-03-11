@@ -2,9 +2,6 @@
 
 namespace App\Livewire\Forms;
 
-use App\Mail\ContactMailer;
-use Illuminate\Support\Facades\Mail;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class ContactForm extends Form
@@ -19,11 +16,14 @@ class ContactForm extends Form
 
     public $message = '';
 
-    public function rules()
+    /**
+     * @return string[]
+     */
+    public function rules(): array
     {
         return [
             'name' => 'required|string"',
-            'phone' => 'required',
+            'phone' => 'required|phone:MG',
             'email' => 'required|email',
             'subject' => 'nullable',
             'message' => 'required',
