@@ -1,4 +1,101 @@
 <div class="container mx-auto px-4 py-8">
+    <div class="mb-8 p-6 bg-base-200 rounded-box shadow-lg">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold flex items-center gap-2">
+                <i class="fa fa-filter"></i>
+                Filtrer les projections
+            </h2>
+            @if($movieTitle || $date)
+                <button
+                    wire:click="resetFilters"
+                    class="btn btn-ghost btn-sm text-error"
+                >
+                    <i class="fa fa-times"></i>
+                    Réinitialiser les filtres
+                </button>
+            @endif
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text flex items-center gap-1">
+                        <i class="fa fa-film"></i>
+                        Titre du film
+                    </span>
+                </label>
+                <div class="relative">
+                    <input
+                        type="text"
+                        wire:model.live.debounce.500ms="movieTitle"
+                        placeholder="Rechercher un film..."
+                        class="input input-bordered w-full pr-10"
+                    />
+                    @if($movieTitle)
+                        <button
+                            wire:click="$set('movieTitle', null)"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-error"
+                        >
+                            <i class="fa fa-times-circle"></i>
+                        </button>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text flex items-center gap-1">
+                        <i class="fa fa-calendar"></i>
+                        Date
+                    </span>
+                </label>
+                <div class="relative">
+                    <input
+                        type="date"
+                        wire:model.live="date"
+                        class="input input-bordered w-full"
+                        min="{{ now()->format('Y-m-d') }}"
+                    />
+                    @if($date)
+                        <button
+                            wire:click="$set('date', null)"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-error"
+                        >
+                            <i class="fa fa-times-circle"></i>
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        @if($movieTitle || $date)
+            <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-base-300">
+                <span class="text-sm opacity-70 mr-2">Filtres actifs:</span>
+
+                @if($movieTitle)
+                    <span class="badge badge-primary gap-1 py-3">
+                        <i class="fa fa-film"></i>
+                        {{ $movieTitle }}
+                        <button wire:click="$set('movieTitle', null)"
+                                class="ml-1 hover:text-error">
+                            <i class="fa fa-times-circle"></i>
+                        </button>
+                    </span>
+                @endif
+
+                @if($date)
+                    <span class="badge badge-accent gap-1 py-3">
+                        <i class="fa fa-calendar"></i>
+                        {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+                        <button wire:click="$set('date', null)"
+                                class="ml-1 hover:text-error">
+                            <i class="fa fa-times-circle"></i>
+                        </button>
+                    </span>
+                @endif
+            </div>
+        @endif
+    </div>
     <h1 class="text-3xl font-bold mb-8">
         @if($projections->isEmpty())
             Aucun projection disponible

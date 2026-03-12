@@ -12,7 +12,7 @@
                 <button type="button"
                         class="btn btn-text btn-circle btn-sm absolute bg-accent end-3 top-3 waves"
                         aria-label="Close"
-                        data-overlay="#{{ $id }}">
+                        data-overlay="#modal-{{ $id }}">
                     <i class="fa fa-close"></i>
                 </button>
             </div>
@@ -21,7 +21,7 @@
                 <div class="modal-body">
                     <div class="alert font-semibold alert-info mb-4 text-center">
                         <i class="fa fa-circle-exclamation"></i> Important: Vos billets seront envoyés dans votre
-                                                                 adresse email.
+                                                                 adresse email. Chaque billet recevra un code unique.
                     </div>
                     <div class="mb-4 flex gap-4 max-sm:flex-col">
                         <div class="w-full">

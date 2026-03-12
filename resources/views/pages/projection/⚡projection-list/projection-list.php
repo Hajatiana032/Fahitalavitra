@@ -6,43 +6,32 @@ use Livewire\Component;
 new class extends Component {
     use \Livewire\WithPagination;
 
-    public string $search = '';
-    public string $filterDate = '';
-    public string $sortBy = 'start_at';
-    public string $sortDirection = 'asc';
-
-    public ?int $imageId = null;
-
-    protected array $queryString = [
-        'search' => ['except' => ''],
-        'filterDate' => ['except' => ''],
-    ];
-
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-
-    public function updatingFilterDate()
-    {
-        $this->resetPage();
-    }
-
-    public function sortBy($field)
-    {
-        if ($this->sortBy === $field) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortBy = $field;
-            $this->sortDirection = 'asc';
-        }
-    }
-
+    public ?string $movieTitle = null;
+    public ?string $date = null;
 
     public function render()
     {
-        $projections = Projection::with('movie')->orderBy('created_at', 'DESC')->paginate(10);
+        $query = Projection::with('movie')->orderBy('created_at', 'DESC');
 
-        return $this->view(['projections' => $projections, 'imageId' => $this->imageId]);
+        // By title
+        if ($this->movieTitle) {
+            $query->whereHas('movie', function ($q) {
+                $q->where('title', 'like', '%'.$this->movieTitle.'%');
+            });
+        }
+
+        // By date
+        if ($this->date) {
+            $query->whereDate('start_at', $this->date);
+        }
+
+        return $this->view([
+            'projections' => $query->paginate(10),
+        ]);
+    }
+
+    public function resetFilters()
+    {
+        $this->reset(['movieTitle', 'date']);
     }
 };
